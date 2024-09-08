@@ -8,4 +8,4 @@ const HomePage: React.FC = () => {
     );
 };
 
-export default HomePage;
+export { HomePage };

@@ -1,12 +1,13 @@
-import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from "./pages/Home/HomePage.tsx";
+import { HomePage, LoginPage } from './pages/pages.ts';
 import * as React from "react";
+import {AppPath} from "./common/enums/app/AppPath.ts";
 
 const App: React.FC = () => (
     <Router>
         <Routes>
-            <Route path="/" element={<HomePage />}/>
+            <Route path={AppPath.Root} element={<HomePage />}/>
+            <Route path={AppPath.Login} element={<LoginPage />}/>
         </Routes>
     </Router>
 )
