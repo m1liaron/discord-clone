@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, ActionReducerMapBuilder } from '@reduxjs/to
 import { User, RegisterRequest, LoginRequest } from "../../common/types/User/user.types.ts";
 import { onLogin } from './userThunk.ts';
 import { DataStatus } from "../../common/enums/app/DataStatus.ts";
+import { RootState } from '../store.ts';
 
 interface UserState {
     user: User | RegisterRequest | LoginRequest | null ,
@@ -35,5 +36,5 @@ export const userSlice = createSlice({
     },
 });
 
-export const selectUser = state => state.user.user;
+export const selectUser = (state: RootState) => state.user.user;
 export const userReducers = userSlice.reducer;
