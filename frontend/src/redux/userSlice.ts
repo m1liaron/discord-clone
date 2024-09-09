@@ -1,8 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {User} from "../common/types/types.ts";
+import { User, RegisterRequest} from "../common/types/User/user.types.ts";
 
 interface UserState {
-    user: User | null,
+    user: User | RegisterRequest | null ,
     status: 'idle' | 'loading' | 'succeeded' | 'failed';  // Possible statuses
     error: string | null;  // Error message or null
 }
