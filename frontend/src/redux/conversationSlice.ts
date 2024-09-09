@@ -1,8 +1,16 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {Conversation} from "../common/types/Conversation/Conversation.ts";
+import { DataStatus} from "../common/enums/app/DataStatus.ts";
 
-const initialState = {
+interface ConversationState {
+    conversations: [Conversation] | [],
+    status: DataStatus,
+    error: string | null
+}
+
+const initialState: ConversationState = {
     conversations: [],
-    status: 'idle',
+    status: DataStatus.Idle,
     error: null
 }
 
