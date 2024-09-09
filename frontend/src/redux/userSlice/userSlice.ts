@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import { User, RegisterRequest, LoginRequest } from "../common/types/User/user.types.ts";
+import { User, RegisterRequest, LoginRequest } from "../../common/types/User/user.types.ts";
 
 interface UserState {
     user: User | RegisterRequest | LoginRequest | null ,
