@@ -1,5 +1,6 @@
 
-export type RegisterRequest = {
+
+type RegisterRequest = {
     email: string;
     name: string
     displayName: string;
@@ -7,3 +8,5 @@ export type RegisterRequest = {
     password: string;
     dateOfBirth: string;
 }
+
+export {RegisterRequest};

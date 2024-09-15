@@ -128,7 +128,7 @@ const RegisterPage: React.FC = () => {
                     <TermsContainer>
                         <input type='checkbox' id='terms-checkbox'/>
                         <p>
-                            <span>I have read and agree to Discord's </span>
+                            <span>I have read and agree to Discord </span>
                             <Link to="https://discord.com/terms">Terms of Service</Link>
                             <span> and </span> 
                             <Link to="https://discord.com/privacy">Privacy Policy</Link>
