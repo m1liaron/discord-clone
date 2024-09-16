@@ -1,9 +1,11 @@
 import {model, Schema} from 'mongoose';
 
-interface IUser extends Document {
+export interface IUser extends Document {
     email: string;
-    name: string;
+    displayName: string;
+    username: string;
     password: string;
+    dateOfBirth: Date;
 }
 
 const UserSchema: Schema<IUser> = new Schema({
@@ -18,12 +20,20 @@ const UserSchema: Schema<IUser> = new Schema({
             message: 'Please fill a valid email address'
         },
     },
-    name: {
+    displayName: {
+        type: String,
+        required: true,
+    },
+    username: {
         type: String,
         required: true,
     },
     password: {
         type: String,
+        required: true,
+    },
+    dateOfBirth: {
+        type: Date,
         required: true,
     }
 });
