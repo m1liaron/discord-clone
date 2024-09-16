@@ -8,7 +8,7 @@ import {onRegister} from "../../redux/userSlice/userThunk.ts";
 const RegisterPage: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [displayName, setDisplayName] = useState<string>('');
-    const [userName, setUsername] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [month, setMonth] = useState<string>('');
     const [day, setDay] = useState<string>('');
@@ -50,16 +50,10 @@ const RegisterPage: React.FC = () => {
         const registerData = {
             email,
             displayName,
-            userName,
+            username,
             password,
-            month,
-            day,
-            year
+            dateOfBirth: new Date(+year, +month - 1, +day)
         };
-
-        Object.keys(registerData).map(() => {
-
-        });
 
         dispatch(onRegister(registerData));
     }
@@ -94,7 +88,7 @@ const RegisterPage: React.FC = () => {
                     <input
                         type="text"
                         id="username"
-                        value={userName}
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required={true}
                         aria-errormessage='This input is required'
