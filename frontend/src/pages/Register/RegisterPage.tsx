@@ -1,52 +1,59 @@
-import React, {FormEvent, useState} from 'react';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { RegisterContainer, SelectContainer, TermsContainer, RegiserFormButton } from "./RegisterPage.styles.ts";
 import { Link } from "react-router-dom";
 import { AppPath } from "../../common/enums/app/AppPath.ts";
-import {useAppDispatch} from "../../hooks/AppRedux.hooks.ts";
-import {onRegister} from "../../redux/userSlice/userThunk.ts";
+import { useAppDispatch } from "../../hooks/AppRedux.hooks.ts";
+import { onRegister } from "../../redux/userSlice/userThunk.ts";
+
+// Validation schema using Yup
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email format').required('Email is required'),
+    displayName: Yup.string().required('Display name is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    month: Yup.string().required('Month is required'),
+    day: Yup.number().min(1).max(31).required('Day is required'),
+    year: Yup.number().required('Year is required')
+});
 
 const RegisterPage: React.FC = () => {
-    const [email, setEmail] = useState<string>('');
-    const [displayName, setDisplayName] = useState<string>('');
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [month, setMonth] = useState<string>('');
-    const [day, setDay] = useState<string>('');
-    const [year, setYear] = useState<string>('');
-
     const dispatch = useAppDispatch();
 
+    const initialValues = {
+        email: '',
+        displayName: '',
+        username: '',
+        password: '',
+        month: '',
+        day: '',
+        year: ''
+    };
+
+    // Helper functions to create options for day, month, and year dropdowns
     const createOptionMonth = () => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return months.map((month, index) => (
-            <option key={index} value={month}>{month}</option>
+            <option key={index} value={index + 1}>{month}</option>
         ));
-    }
+    };
 
     const createOptionDay = () => {
-        const days = [];
-        for(let i = 1; i < 32; i++){
-            days.push(i);
-        }
-        return days.map((day, i) => (
-            <option key={i} value={day}>{day}</option>
+        return Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
+            <option key={day} value={day}>{day}</option>
         ));
-    }
+    };
 
     const createOptionYear = () => {
         const currentYear = new Date().getFullYear();
-        const years = [];
-        for(let i = currentYear; i >= 1830; i--) {
-            years.push(i);
-        }
-        return years.map((year, i) => (
-            <option key={i} value={year}>{year}</option>
+        return Array.from({ length: currentYear - 1829 }, (_, i) => currentYear - i).map(year => (
+            <option key={year} value={year}>{year}</option>
         ));
-    }
+    };
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-
+    const handleSubmit = (values: typeof initialValues) => {
+        const { email, displayName, username, password, month, day, year } = values;
         const registerData = {
             email,
             displayName,
@@ -54,84 +61,75 @@ const RegisterPage: React.FC = () => {
             password,
             dateOfBirth: new Date(+year, +month - 1, +day)
         };
-
         dispatch(onRegister(registerData));
-    }
+    };
 
     return (
         <RegisterContainer>
             <div>
-                <form onSubmit={(e: FormEvent) => handleSubmit(e)}>
-                    <h2>Create an account</h2>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ isSubmitting }) => (
+                        <Form>
+                            <h2>Create an account</h2>
 
-                    <label>EMAIL</label>
-                    <input
-                        type="text"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required={true}
-                        aria-errormessage='This input is required'
-                    />
-                    
-                    <label>DISPLAY NAME</label>
-                    <input
-                        type="text"
-                        id="display_name"
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        required={true}
-                        aria-errormessage='This input is required'
-                    />
+                            <label>Email</label>
+                            <Field type="text" id="email" name="email" />
+                            <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
 
-                    <label>USERNAME *</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required={true}
-                        aria-errormessage='This input is required'
-                    />
+                            <label>Display Name</label>
+                            <Field type="text" id="display_name" name="displayName" />
+                            <ErrorMessage name="displayName" component="div" style={{ color: 'red' }} />
 
-                    <label>PASSWORD *</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required={true}
-                        aria-errormessage='This input is required'
-                    />
+                            <label>Username *</label>
+                            <Field type="text" id="username" name="username" />
+                            <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
 
-                    <label>DATE OF BIRTH *</label>
-                    <SelectContainer>
-                        <select value={month} onChange={(e) => setMonth(e.target.value)}>
-                            {createOptionMonth()}
-                        </select>
-                        <select value={day} onChange={(e) => setDay(e.target.value)}>
-                            {createOptionDay()}
-                        </select>
-                        <select value={year} onChange={(e) => setYear(e.target.value)}>
-                            {createOptionYear()}
-                        </select>
-                    </SelectContainer>
+                            <label>Password *</label>
+                            <Field type="password" id="password" name="password" />
+                            <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
 
-                    <RegiserFormButton type="submit">Submit</RegiserFormButton>
+                            <label>Date of Birth *</label>
+                            <SelectContainer>
+                                <Field as="select" name="month">
+                                    <option value="">Month</option>
+                                    {createOptionMonth()}
+                                </Field>
+                                <Field as="select" name="day">
+                                    <option value="">Day</option>
+                                    {createOptionDay()}
+                                </Field>
+                                <Field as="select" name="year">
+                                    <option value="">Year</option>
+                                    {createOptionYear()}
+                                </Field>
+                            </SelectContainer>
+                            <ErrorMessage name="month" component="div" style={{ color: 'red' }} />
+                            <ErrorMessage name="day" component="div" style={{ color: 'red' }} />
+                            <ErrorMessage name="year" component="div" style={{ color: 'red' }} />
 
-                    <TermsContainer>
-                        <input type='checkbox' id='terms-checkbox'/>
-                        <p>
-                            <span>I have read and agree to Discord </span>
-                            <Link to="https://discord.com/terms">Terms of Service</Link>
-                            <span> and </span> 
-                            <Link to="https://discord.com/privacy">Privacy Policy</Link>
-                            .
-                        </p>
-                    </TermsContainer>
-                    
-                    <Link to={AppPath.Login}>Already have an account?</Link>
-                </form>
+                            <TermsContainer>
+                                <Field type="checkbox" name="terms" />
+                                <p>
+                                    <span>I have read and agree to Discord </span>
+                                    <Link to="https://discord.com/terms">Terms of Service</Link>
+                                    <span> and </span> 
+                                    <Link to="https://discord.com/privacy">Privacy Policy</Link>
+                                    .
+                                </p>
+                            </TermsContainer>
+
+                            <RegiserFormButton type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? 'Submitting...' : 'Submit'}
+                            </RegiserFormButton>
+
+                            <Link to={AppPath.Login}>Already have an account?</Link>
+                        </Form>
+                    )}
+                </Formik>
             </div>
         </RegisterContainer>
     );
