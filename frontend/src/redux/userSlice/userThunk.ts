@@ -6,8 +6,7 @@ import { AxiosResponse } from 'axios';
 const onLogin = createAsyncThunk<LoginResponse, LoginRequest>(
     'user/login', 
     async (data: LoginRequest) => {
-        const axiosInstance = await axiosRequest();
-        const response: AxiosResponse<LoginResponse> = await axiosInstance.post('/user/login', data);
+        const response: AxiosResponse<LoginResponse> = await axiosRequest('/user/login', 'POST', data);
         return response.data
     }
 )
@@ -15,8 +14,7 @@ const onLogin = createAsyncThunk<LoginResponse, LoginRequest>(
 const onRegister = createAsyncThunk<LoginResponse, RegisterRequest>(
     'user/register',
     async (data: RegisterRequest) => {
-        const axiosInstance = await axiosRequest();
-        const response: AxiosResponse<LoginResponse> = await axiosInstance.post('/user/register', data);
+        const response: AxiosResponse<LoginResponse> = await axiosRequest('/auth/register', 'POST', data);
         return response.data
     }
 )

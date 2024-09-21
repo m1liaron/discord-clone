@@ -1,16 +1,16 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { RegisterContainer, SelectContainer, TermsContainer, RegiserFormButton } from "./RegisterPage.styles.ts";
-import { Link } from "react-router-dom";
+import { RegisterContainer, SelectContainer, RegiserFormButton } from "./RegisterPage.styles.ts";
+import {Link, useNavigate} from "react-router-dom";
 import { AppPath } from "../../common/enums/app/AppPath.ts";
 import { useAppDispatch } from "../../hooks/AppRedux.hooks.ts";
 import { onRegister } from "../../redux/userSlice/userThunk.ts";
+import {RegisterRequest} from "../../common/types/User/RegisterRequest.ts";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email format').required('Email is required'),
-    displayName: Yup.string().required('Display name is required'),
     username: Yup.string().required('Username is required'),
     password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
     month: Yup.string().required('Month is required'),
@@ -20,6 +20,7 @@ const validationSchema = Yup.object().shape({
 
 const RegisterPage: React.FC = () => {
     const dispatch = useAppDispatch();
+    const navigation = useNavigate();
 
     const initialValues = {
         email: '',
@@ -52,16 +53,21 @@ const RegisterPage: React.FC = () => {
         ));
     };
 
-    const handleSubmit = (values: typeof initialValues) => {
+    const handleSubmit = async (values: typeof initialValues) => {
         const { email, displayName, username, password, month, day, year } = values;
-        const registerData = {
+        const registerData: RegisterRequest = {
             email,
             displayName,
             username,
             password,
             dateOfBirth: new Date(+year, +month - 1, +day)
         };
-        dispatch(onRegister(registerData));
+        const response = await dispatch(onRegister(registerData));
+        if(onRegister.rejected.match(response)) {
+            console.log('error')
+        } else {
+            navigation(AppPath.Root);
+        }
     };
 
     return (
@@ -72,27 +78,55 @@ const RegisterPage: React.FC = () => {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ isSubmitting }) => (
+                    {({ errors, touched, isSubmitting }) => (
                         <Form>
                             <h2>Create an account</h2>
 
-                            <label>Email</label>
-                            <Field type="text" id="email" name="email" />
-                            <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
+                            <label style={{
+                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.password && touched.password ? 'EMAIL' : 'EMAIL *'}
+                                  </span>
+                                {errors.password && touched.password ? ' - Required' : ''}
+                            </label>
+                            <Field type="text" id="email" name="email"/>
 
-                            <label>Display Name</label>
-                            <Field type="text" id="display_name" name="displayName" />
-                            <ErrorMessage name="displayName" component="div" style={{ color: 'red' }} />
+                            <label style={{textTransform: 'uppercase'}}>Display name</label>
+                            <Field type="text" id="display_name" name="displayName"/>
 
-                            <label>Username *</label>
-                            <Field type="text" id="username" name="username" />
-                            <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
+                            <label style={{
+                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.password && touched.password ? 'Username' : 'Username *'}
+                                  </span>
+                                {errors.password && touched.password ? ' - Required' : ''}
+                            </label>
+                            <Field type="text" id="username" name="username"/>
 
-                            <label>Password *</label>
-                            <Field type="password" id="password" name="password" />
-                            <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
+                            <label style={{
+                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.password && touched.password ? 'Password' : 'Password *'}
+                                  </span>
+                                {errors.password && touched.password ? ' - Required' : ''}
+                            </label>
+                            <Field type="password" id="password" name="password"/>
 
-                            <label>Date of Birth *</label>
+                            <label style={{
+                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.password && touched.password ? 'Date of Birth' : 'Date of Birth *'}
+                                  </span>
+                                {errors.password && touched.password ? ' - Required' : ''}
+                            </label>
                             <SelectContainer>
                                 <Field as="select" name="month">
                                     <option value="">Month</option>
@@ -107,24 +141,8 @@ const RegisterPage: React.FC = () => {
                                     {createOptionYear()}
                                 </Field>
                             </SelectContainer>
-                            <ErrorMessage name="month" component="div" style={{ color: 'red' }} />
-                            <ErrorMessage name="day" component="div" style={{ color: 'red' }} />
-                            <ErrorMessage name="year" component="div" style={{ color: 'red' }} />
 
-                            <TermsContainer>
-                                <Field type="checkbox" name="terms" />
-                                <p>
-                                    <span>I have read and agree to Discord </span>
-                                    <Link to="https://discord.com/terms">Terms of Service</Link>
-                                    <span> and </span> 
-                                    <Link to="https://discord.com/privacy">Privacy Policy</Link>
-                                    .
-                                </p>
-                            </TermsContainer>
-
-                            <RegiserFormButton type="submit" disabled={isSubmitting}>
-                                {isSubmitting ? 'Submitting...' : 'Submit'}
-                            </RegiserFormButton>
+                            <RegiserFormButton type="submit" disabled={isSubmitting}> Sign up </RegiserFormButton>
 
                             <Link to={AppPath.Login}>Already have an account?</Link>
                         </Form>
@@ -135,4 +153,4 @@ const RegisterPage: React.FC = () => {
     );
 };
 
-export { RegisterPage };
+export {RegisterPage};

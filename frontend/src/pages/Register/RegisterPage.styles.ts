@@ -41,7 +41,6 @@ export const RegisterContainer = styled.div`
             font-size: 12px;
             font-weight: bold;
             color: #b9bbbe;
-            text-transform: uppercase;
         }
 
         input, select {
