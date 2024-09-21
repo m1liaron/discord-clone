@@ -89,9 +89,7 @@ export const LoginContainer = styled.div`
         }
 
         a {
-            color: #7289da;
             text-decoration: none;
-            font-weight: bold;
 
             &:hover {
                 text-decoration: underline;

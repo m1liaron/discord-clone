@@ -83,13 +83,13 @@ const RegisterPage: React.FC = () => {
                             <h2>Create an account</h2>
 
                             <label style={{
-                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                color: errors.email && touched.email ? '#fa5959' : '#b9bbbe',
                                 fontWeight: 'bold'
                             }}>
                                   <span style={{textTransform: 'uppercase'}}>
-                                    {errors.password && touched.password ? 'EMAIL' : 'EMAIL *'}
+                                    {errors.email && touched.email ? 'EMAIL' : 'EMAIL *'}
                                   </span>
-                                {errors.password && touched.password ? ' - Required' : ''}
+                                {errors.email && touched.email ? ' - Required' : ''}
                             </label>
                             <Field type="text" id="email" name="email"/>
 
@@ -97,13 +97,13 @@ const RegisterPage: React.FC = () => {
                             <Field type="text" id="display_name" name="displayName"/>
 
                             <label style={{
-                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                color: errors.username && touched.username ? '#fa5959' : '#b9bbbe',
                                 fontWeight: 'bold'
                             }}>
                                   <span style={{textTransform: 'uppercase'}}>
-                                    {errors.password && touched.password ? 'Username' : 'Username *'}
+                                    {errors.username && touched.username ? 'Username' : 'Username *'}
                                   </span>
-                                {errors.password && touched.password ? ' - Required' : ''}
+                                {errors.username && touched.username ? ' - Required' : ''}
                             </label>
                             <Field type="text" id="username" name="username"/>
 
@@ -119,13 +119,13 @@ const RegisterPage: React.FC = () => {
                             <Field type="password" id="password" name="password"/>
 
                             <label style={{
-                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                color: errors.day && touched.day ? '#fa5959' : '#b9bbbe',
                                 fontWeight: 'bold'
                             }}>
                                   <span style={{textTransform: 'uppercase'}}>
-                                    {errors.password && touched.password ? 'Date of Birth' : 'Date of Birth *'}
+                                    {errors.day && touched.day ? 'Date of Birth' : 'Date of Birth *'}
                                   </span>
-                                {errors.password && touched.password ? ' - Required' : ''}
+                                {errors.day && touched.day ? ' - Required' : ''}
                             </label>
                             <SelectContainer>
                                 <Field as="select" name="month">
