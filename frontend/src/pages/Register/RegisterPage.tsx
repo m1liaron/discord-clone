@@ -1,81 +1,156 @@
 import React from 'react';
-import { RegisterContainer, SelectContainer, TermsContainer, RegiserFormButton } from "./RegisterPage.styles.ts";
-import { Link } from "react-router-dom";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { RegisterContainer, SelectContainer, RegiserFormButton } from "./RegisterPage.styles.ts";
+import {Link, useNavigate} from "react-router-dom";
 import { AppPath } from "../../common/enums/app/AppPath.ts";
+import { useAppDispatch } from "../../hooks/AppRedux.hooks.ts";
+import { onRegister } from "../../redux/userSlice/userThunk.ts";
+import {RegisterRequest} from "../../common/types/User/RegisterRequest.ts";
+
+// Validation schema using Yup
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email format').required('Email is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    month: Yup.string().required('Month is required'),
+    day: Yup.number().min(1).max(31).required('Day is required'),
+    year: Yup.number().required('Year is required')
+});
 
 const RegisterPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const navigation = useNavigate();
 
+    const initialValues = {
+        email: '',
+        displayName: '',
+        username: '',
+        password: '',
+        month: '',
+        day: '',
+        year: ''
+    };
+
+    // Helper functions to create options for day, month, and year dropdowns
     const createOptionMonth = () => {
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         return months.map((month, index) => (
-            <option key={index} value={month}>{month}</option>
+            <option key={index} value={index + 1}>{month}</option>
         ));
-    }
+    };
 
     const createOptionDay = () => {
-        const days = [];
-        for(let i = 1; i < 32; i++){
-            days.push(i);
-        }
-        return days.map((day, i) => (
-            <option key={i} value={day}>{day}</option>
+        return Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
+            <option key={day} value={day}>{day}</option>
         ));
-    }
+    };
 
     const createOptionYear = () => {
         const currentYear = new Date().getFullYear();
-        const years = [];
-        for(let i = currentYear; i >= 1830; i--) {
-            years.push(i);
-        }
-        return years.map((year, i) => (
-            <option key={i} value={year}>{year}</option>
+        return Array.from({ length: currentYear - 1829 }, (_, i) => currentYear - i).map(year => (
+            <option key={year} value={year}>{year}</option>
         ));
-    }
+    };
+
+    const handleSubmit = async (values: typeof initialValues) => {
+        const { email, displayName, username, password, month, day, year } = values;
+        const registerData: RegisterRequest = {
+            email,
+            displayName,
+            username,
+            password,
+            dateOfBirth: new Date(+year, +month - 1, +day)
+        };
+        const response = await dispatch(onRegister(registerData));
+        if(onRegister.rejected.match(response)) {
+            console.log('error')
+        } else {
+            navigation(AppPath.Root);
+        }
+    };
 
     return (
         <RegisterContainer>
             <div>
-                <form>
-                    <h2>Create an account</h2>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ errors, touched, isSubmitting }) => (
+                        <Form>
+                            <h2>Create an account</h2>
 
-                    <label>EMAIL</label>
-                    <input type="text" id="email"/>
-                    
-                    <label>DISPLAY NAME</label>
-                    <input type="text" id="display_name"/>
+                            <label style={{
+                                color: errors.email && touched.email ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.email && touched.email ? 'EMAIL' : 'EMAIL *'}
+                                  </span>
+                                {errors.email && touched.email ? ' - Required' : ''}
+                            </label>
+                            <Field type="text" id="email" name="email"/>
 
-                    <label>USERNAME *</label>
-                    <input type="text" id="username"/>
+                            <label style={{textTransform: 'uppercase'}}>Display name</label>
+                            <Field type="text" id="display_name" name="displayName"/>
 
-                    <label>PASSWORD *</label>
-                    <input type="password" id="password"/>
+                            <label style={{
+                                color: errors.username && touched.username ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.username && touched.username ? 'Username' : 'Username *'}
+                                  </span>
+                                {errors.username && touched.username ? ' - Required' : ''}
+                            </label>
+                            <Field type="text" id="username" name="username"/>
 
-                    <label>DATE OF BIRTH *</label>
-                    <SelectContainer>
-                        <select>{createOptionMonth()}</select>
-                        <select>{createOptionDay()}</select>
-                        <select>{createOptionYear()}</select>
-                    </SelectContainer>
+                            <label style={{
+                                color: errors.password && touched.password ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.password && touched.password ? 'Password' : 'Password *'}
+                                  </span>
+                                {errors.password && touched.password ? ' - Required' : ''}
+                            </label>
+                            <Field type="password" id="password" name="password"/>
 
-                    <RegiserFormButton>Continue</RegiserFormButton>
+                            <label style={{
+                                color: errors.day && touched.day ? '#fa5959' : '#b9bbbe',
+                                fontWeight: 'bold'
+                            }}>
+                                  <span style={{textTransform: 'uppercase'}}>
+                                    {errors.day && touched.day ? 'Date of Birth' : 'Date of Birth *'}
+                                  </span>
+                                {errors.day && touched.day ? ' - Required' : ''}
+                            </label>
+                            <SelectContainer>
+                                <Field as="select" name="month">
+                                    <option value="">Month</option>
+                                    {createOptionMonth()}
+                                </Field>
+                                <Field as="select" name="day">
+                                    <option value="">Day</option>
+                                    {createOptionDay()}
+                                </Field>
+                                <Field as="select" name="year">
+                                    <option value="">Year</option>
+                                    {createOptionYear()}
+                                </Field>
+                            </SelectContainer>
 
-                    <TermsContainer>
-                        <input type='checkbox' id='terms-checkbox'/>
-                        <p>
-                            <span>I have read and agree to Discord's </span>
-                            <Link to="https://discord.com/terms">Terms of Service</Link>
-                            <span> and </span> 
-                            <Link to="https://discord.com/privacy">Privacy Policy</Link>
-                            .
-                        </p>
-                    </TermsContainer>
-                    
-                    <Link to={AppPath.Login}>Already have an account?</Link>
-                </form>
+                            <RegiserFormButton type="submit" disabled={isSubmitting}> Sign up </RegiserFormButton>
+
+                            <Link to={AppPath.Login}>Already have an account?</Link>
+                        </Form>
+                    )}
+                </Formik>
             </div>
         </RegisterContainer>
     );
 };
 
-export { RegisterPage };
+export {RegisterPage};
