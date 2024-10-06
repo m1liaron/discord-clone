@@ -10,18 +10,18 @@ const App: React.FC = () => (
             <Routes>
                 <Route path={AppPath.Login} element={<LoginPage />} />
                 <Route path={AppPath.Register} element={<RegisterPage />} />
-                <Route path={AppPath.Root} element={
+                <Route path={AppPath.Root} element={<HomePage />} />
+                <Route path={AppPath.ChannelsMe} element={
                     <div className="d-flex flex-row align-items-center">
                         <ServersNavigationBar/>
 
-                        <div>
+                        <div className="flex-grow-1">
                             <MainNavigationBar />
                             <ChatsNavigationBar />
-                            <HomePage />
+                            <ChannelsPage />
                         </div>
                     </div>
                 } />
-                <Route path={AppPath.ChannelsMe} element={<ChannelsPage />} />
                 <Route path="*" element={<Navigate to={AppPath.Root} />} />
             </Routes>
         </div>
