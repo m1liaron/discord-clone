@@ -3,7 +3,7 @@ import * as React from "react";
 const ChannelsPage: React.FC = () => {
     return (
         <div>
-            Home Page
+            Channels Page
         </div>
     );
 };
