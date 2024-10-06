@@ -6,9 +6,9 @@ import { GoPlus } from "react-icons/go";
 const ChatsNavigationBar: React.FC = () => {
     return (
         <div className='navBar'>
-            <div style={{ marginLeft: 10}}>
+            <div style={{ marginLeft: 10 }}>
                 <span style={{ textTransform: 'uppercase', color: '#8f8f8f', fontSize: '13px' }}>Привaтні повідомлення</span>
-                <GoPlus color='#8f8f8f' size={20}/>
+                <GoPlus color='#fff' size={20} style={{ cursor: 'pointer' }}/>
             </div>
             <ul>
                 <li>
