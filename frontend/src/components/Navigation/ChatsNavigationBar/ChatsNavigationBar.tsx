@@ -1,24 +1,23 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import {ChatParticipantImage} from "./ChatsNavigationBar.styles.ts";
 
 const ChatsNavigationBar: React.FC = () => {
     return (
         <div className='navBar'>
             <ul>
-                <li className="m-lg-5">
-                    <div className="d-flex align-items-center w-100">
-                        <Link to="" className="d-flex flex-grow-1 overflow-hidden align-items-center gap-5">
-                            <div className="h-50 d-flex align-items-center p-1">
-                                <div className="d-flex justify-content-center flex-grow-1 w-25">
+                <li>
+                    <div className="d-flex align-items-center w-100 p-3">
+                        <Link to="" className="d-flex align-items-center gap-3">
+                                <div className="d-flex justify-content-center w-25">
                                     <div>
-                                        <img className="h-100 w-100" src="/img/logo.png" alt="" />
+                                        <ChatParticipantImage src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/800px-Cat03.jpg" alt="" />
                                     </div>
                                 </div>
                                 <div>
-                                    <span>Friend 1</span>
+                                    <span>Cat Friend</span>
                                 </div>
-                            </div>
-                        </Link>
+                            </Link>
                     </div>
                 </li>
             </ul>

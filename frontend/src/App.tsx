@@ -17,8 +17,10 @@ const App: React.FC = () => (
                         <ServersNavigationBar/>
 
                         <div className="flex-grow-1">
-                            <MainNavigationBar />
-                            <ChatsNavigationBar />
+                            <div style={{ background: '#303030', padding: '10px', height: '100vh'}}>
+                                <MainNavigationBar />
+                                <ChatsNavigationBar />
+                            </div>
                             <ChannelsPage />
                         </div>
                     </div>
