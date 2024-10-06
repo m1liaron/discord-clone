@@ -8,6 +8,7 @@ const onLogin = createAsyncThunk<LoginResponse, LoginRequest>(
     'user/login', 
     async (data: LoginRequest) => {
         const response: AxiosResponse<LoginResponse> = await axiosRequest(`/${ApiPath.Auth}/login`, 'POST', data);
+        localStorage.setItem('token', response.data.token);
         return response.data
     }
 )
@@ -16,6 +17,7 @@ const onRegister = createAsyncThunk<LoginResponse, RegisterRequest>(
     'user/register',
     async (data: RegisterRequest) => {
         const response: AxiosResponse<LoginResponse> = await axiosRequest(`/${ApiPath.Auth}/register`, 'POST', data);
+        localStorage.setItem('token', response.data.token);
         return response.data
     }
 )

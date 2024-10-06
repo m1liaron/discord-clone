@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
         if(onLogin.rejected.match(response)) {
             console.log('Error registering');
         } else {
-            navigation(AppPath.Root);
+            navigation(AppPath.ChannelsMe);
         }
     }
 

@@ -66,7 +66,7 @@ const RegisterPage: React.FC = () => {
         if(onRegister.rejected.match(response)) {
             console.log('error')
         } else {
-            navigation(AppPath.Root);
+            navigation(AppPath.ChannelsMe);
         }
     };
 
