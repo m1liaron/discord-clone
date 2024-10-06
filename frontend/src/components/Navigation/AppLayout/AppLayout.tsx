@@ -1,0 +1,24 @@
+import React from 'react';
+import { ServersNavigationBar, MainNavigationBar, ChatsNavigationBar } from '../Navigaiton';
+
+interface LayoutProps {
+    children: React.ReactNode;
+}
+
+const AppLayout: React.FC<LayoutProps> = ({ children }) => {
+    return (
+        <div className="d-flex flex-row">
+            <ServersNavigationBar/>  
+
+            <div className="flex-grow-1">
+                <div style={{ background: '#303030', padding: '10px', height: '100vh' }}>
+                    <MainNavigationBar />
+                    <ChatsNavigationBar />
+                </div>
+                {children}
+            </div>
+        </div>
+    );
+};
+
+export default AppLayout;
