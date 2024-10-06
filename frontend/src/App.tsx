@@ -3,6 +3,7 @@ import { ChannelsPage, HomePage, LoginPage, RegisterPage } from './pages/pages.t
 import * as React from 'react';
 import { AppPath } from './common/enums/app/AppPath.ts';
 import {ChatsNavigationBar, MainNavigationBar, ServersNavigationBar} from "./components/Navigation/Navigaiton.ts";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => (
     <Router>
