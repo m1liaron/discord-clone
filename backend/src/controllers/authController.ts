@@ -4,6 +4,7 @@ import User from '../models/User';
 import {RegisterRequest} from "../common/types/auth/RegisterType";
 import {LoginRequest} from "../common/types/auth/LoginType"; // Adjust import path if needed
 import bcrypt from 'bcrypt';
+import {AuthenticatedRequest} from "../common/types/auth/AuthenticatedRequest";
 
 interface UserData {
     username: string;
@@ -13,7 +14,6 @@ interface UserData {
     password: string;
 }
 
-// Register function with typed request and response
 const register = async (req: Request, res: Response) => {
     const userData = req.body as RegisterRequest;
 
@@ -73,12 +73,12 @@ const login = async (req: Request, res: Response) => {
         // Handle errors
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             error: true,
-            message: error instanceof Error ? error.message : 'Registration failed. Please try again later.',
+            message: error instanceof Error ? error.message : 'Login failed. Please try again later.',
         });
     }
 }
 
 export {
     register,
-    login
+    login,
 };
