@@ -10,12 +10,13 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         <div className="d-flex flex-row">
             <ServersNavigationBar/>  
 
-            <div className="flex-grow-1">
-                <div style={{ background: '#303030', padding: '10px', height: '100vh' }}>
-                    <MainNavigationBar />
-                    <ChatsNavigationBar />
-                </div>
-                {children}
+            <div style={{ background: '#303030', padding: '10px', height: '100vh' }}>
+                <MainNavigationBar />
+                <ChatsNavigationBar />
+            </div>
+
+            <div>
+                {children}  {/* This will render the main content (chats, store, etc.) */}
             </div>
         </div>
     );
