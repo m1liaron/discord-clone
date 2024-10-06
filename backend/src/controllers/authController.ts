@@ -29,12 +29,13 @@ const register = async (req: Request, res: Response) => {
 
         // Create a new user
         const newUser = await User.create(userData);
+        const token = await newUser.createJWT();
 
         // Extract required properties
         const { username, displayName, dateOfBirth, email } = newUser.toObject() as UserData;
 
         // Send the response
-        res.status(StatusCodes.CREATED).json({ username, displayName, dateOfBirth, email });
+        res.status(StatusCodes.CREATED).json({ user: { username, displayName, dateOfBirth, email}, token });
     } catch (error) {
         // Handle errors
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -66,7 +67,7 @@ const login = async (req: Request, res: Response) => {
                 .status(StatusCodes.UNAUTHORIZED)
                 .json({ error: true, message: 'Invalid credentials' });
         }
-        const token = user.createJWT();
+        const token = await user.createJWT();
         const { email: userEmail, username } = user;
         res.status(StatusCodes.CREATED).json({ user: { email: userEmail, username }, token})
     } catch (error) {

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosRequest } from '../../utils/axiosRequest';
-import {LoginRequest, LoginResponse, RegisterRequest} from '../../common/types/User/user.types';
+import { axiosRequest } from '../../utils/axiosRequest.ts';
+import {LoginRequest, LoginResponse, RegisterRequest} from '../../common/types/User/user.types.ts';
 import { AxiosResponse } from 'axios';
 import {ApiPath} from "../../common/enums/app/ApiPath.ts";
 
