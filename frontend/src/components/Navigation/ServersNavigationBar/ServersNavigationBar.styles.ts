@@ -27,9 +27,18 @@ const ActNavigationItem = styled.div`
     padding: 10px;
     background: #4a4d53;
     border-radius: 100px;
-    color: #00b900;
+    color: #02bb02;
     margin-bottom: 10px;
     margin-top: 10px;
+    transition: 0.3s;
+
+
+    &:hover {
+        background: #02bb02;
+        border-radius: 20px;
+        color: #fff;
+        cursor: pointer;
+    }
 `
 
 export { DiscordLogo, ServersNavigation, LineContainer, ActNavigationItem }

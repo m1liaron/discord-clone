@@ -17,18 +17,14 @@ const ServersNavigationBar: React.FC = () => {
 
                 <div></div>
 
-                <div>
                     <ActNavigationItem>
                         <LuPlus size={30}/>
                     </ActNavigationItem>
-                </div>
                 <LineContainer/>
 
-                <div>
-                    <ActNavigationItem>
-                        <IoMdDownload  size={30}/>
-                    </ActNavigationItem>
-                </div>
+                <ActNavigationItem>
+                    <IoMdDownload  size={30}/>
+                </ActNavigationItem>
             </div>
         </ServersNavigation>
     );
