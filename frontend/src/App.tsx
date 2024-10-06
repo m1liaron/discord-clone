@@ -13,7 +13,7 @@ const App: React.FC = () => (
                 <Route path={AppPath.Register} element={<RegisterPage />} />
                 <Route path={AppPath.Root} element={<HomePage />} />
                 <Route path={AppPath.ChannelsMe} element={
-                    <div className="d-flex flex-row align-items-center">
+                    <div className="d-flex flex-row">
                         <ServersNavigationBar/>
 
                         <div className="flex-grow-1">
