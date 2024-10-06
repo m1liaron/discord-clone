@@ -12,4 +12,4 @@ const MainNavigationBar: React.FC = () => (
     </div>
 );
 
-export default MainNavigationBar;
+export { MainNavigationBar };

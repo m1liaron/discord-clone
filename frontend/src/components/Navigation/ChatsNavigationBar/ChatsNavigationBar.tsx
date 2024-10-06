@@ -20,4 +20,4 @@ const ChatsNavigationBar: React.FC = () => {
     );
 }
 
-export default ChatsNavigationBar;
+export { ChatsNavigationBar };
