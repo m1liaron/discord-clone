@@ -20,7 +20,16 @@ const LineContainer = styled.div`
     width: 80%;
     height: 2px;
     background: #323232;
-    margin: 0 auto;
+    margin: 5px;
 `
 
-export { DiscordLogo, ServersNavigation, LineContainer }
+const ActNavigationItem = styled.div`
+    padding: 10px;
+    background: #4a4d53;
+    border-radius: 100px;
+    color: #00b900;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`
+
+export { DiscordLogo, ServersNavigation, LineContainer, ActNavigationItem }

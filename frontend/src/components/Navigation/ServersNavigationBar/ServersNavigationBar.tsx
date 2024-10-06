@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {FaDiscord} from "react-icons/fa";
-import { DiscordLogo, ServersNavigation, LineContainer } from "./ServersNavigationBar.styles.ts";
+import {DiscordLogo, ServersNavigation, LineContainer, ActNavigationItem} from "./ServersNavigationBar.styles.ts";
+import {LuPlus} from "react-icons/lu";
+import {IoMdDownload} from "react-icons/io";
 
 const ServersNavigationBar: React.FC = () => {
     return (
@@ -12,11 +14,20 @@ const ServersNavigationBar: React.FC = () => {
                     </DiscordLogo>
                 </div>
                 <LineContainer/>
+
+                <div></div>
+
                 <div>
-                    <img/>
+                    <ActNavigationItem>
+                        <LuPlus size={30}/>
+                    </ActNavigationItem>
                 </div>
+                <LineContainer/>
+
                 <div>
-                    <img/>
+                    <ActNavigationItem>
+                        <IoMdDownload  size={30}/>
+                    </ActNavigationItem>
                 </div>
             </div>
         </ServersNavigation>
