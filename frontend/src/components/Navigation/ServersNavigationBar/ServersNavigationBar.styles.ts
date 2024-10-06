@@ -5,7 +5,7 @@ const ServersNavigation = styled.div`
     flex-direction: column;
     background: #222222;
     flex: 1;
-    height: 100%;
+    height: 100vh;
     padding: 20px;
 `;
 
@@ -14,6 +14,7 @@ const DiscordLogo = styled.div`
     background-color: #535bf2;
     border-radius: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
 `;
 
 const LineContainer = styled.div`
