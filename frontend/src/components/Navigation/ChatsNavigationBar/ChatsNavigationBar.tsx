@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {ChatParticipantImage} from "./ChatsNavigationBar.styles.ts";
+import { GoPlus } from "react-icons/go";
 
 const ChatsNavigationBar: React.FC = () => {
     return (
         <div className='navBar'>
+            <div style={{ marginLeft: 10}}>
+                <span style={{ textTransform: 'uppercase', color: '#8f8f8f', fontSize: '13px' }}>Привaтні повідомлення</span>
+                <GoPlus color='#8f8f8f' size={20}/>
+            </div>
             <ul>
                 <li>
                     <div className="d-flex align-items-center w-100 p-3">
