@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {FaDiscord} from "react-icons/fa";
-import {DiscordLogo, ServersNavigation, LineContainer, ActNavigationItem} from "./ServersNavigationBar.styles.ts";
+import {FaCompass, FaDiscord} from "react-icons/fa";
+import {DiscordLogo, ServersNavigation, LineContainer, ActNavigationItem, CompassContainer } from "./ServersNavigationBar.styles.ts";
 import {LuPlus} from "react-icons/lu";
 import {IoMdDownload} from "react-icons/io";
 import {Link} from "react-router-dom";
@@ -30,6 +30,10 @@ const ServersNavigationBar: React.FC = () => {
                     <IoMdDownload  size={30}/>
                 </ActNavigationItem>
             </div>
+
+            <CompassContainer>
+                <FaCompass size={30}/>
+            </CompassContainer>
         </ServersNavigation>
     );
 };
